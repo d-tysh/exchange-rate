@@ -1,0 +1,78 @@
+import { useEffect, useState } from "react";
+
+export const Converter = ({getCurrencyValue}) => {
+    const [firstCurrency, setFirstCurrency] = useState('UAH');
+    const [secondCurrency, setSecondCurrency] = useState('USD');
+    const [firstAmount, setFirstAmount] = useState(0);
+    const [secondAmount, setSecondAmount] = useState(0);
+
+    useEffect(() => {
+        setSecondAmount((firstAmount * (getCurrencyValue(firstCurrency) || 1) / (getCurrencyValue(secondCurrency) || 1)).toFixed(2));
+    }, [firstAmount, firstCurrency, getCurrencyValue, secondCurrency])
+
+    const handleFirstAmount = (e) => {
+        const { value } = e.target;
+        setFirstAmount(value);
+        const currencyRatio = ((getCurrencyValue(firstCurrency) || 1) / (getCurrencyValue(secondCurrency) || 1));
+        setSecondAmount((value * currencyRatio).toFixed(2));
+    }
+
+    const handleSecondAmount = (e) => {
+        const { value } = e.target;
+        setSecondAmount(value);
+        const currencyRatio = ((getCurrencyValue(secondCurrency) || 1) / (getCurrencyValue(firstCurrency) || 1));
+        setFirstAmount((value * currencyRatio).toFixed(2));
+    }
+
+    const handleFirstCurrency = (e) => {
+        setFirstCurrency(e.target.value);
+    }
+
+    const handleSecondCurrency = (e) => {
+        setSecondCurrency(e.target.value);
+    }
+
+    return (
+        <div className="border w-[100%] flex flex-col items-center gap-4 py-4">
+            <div>
+                <input 
+                    type="number"
+                    min='0'
+                    onChange={handleFirstAmount}
+                    value={firstAmount} 
+                    className="border mr-2 px-2 py-1 hover:border-gray-500"
+                />
+                <select 
+                    name="firstCurrencySelect"
+                    min='0'
+                    value={firstCurrency}
+                    // onChange={handleFirstCurrency} 
+                    onChange={(e) => setFirstCurrency(e.target.value)}
+                    className="border mr-2 px-2 py-1 hover:border-gray-500 cursor-pointer bg-slate-300"
+                >
+                    <option value="UAH">UAH</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+            <div>
+                <input 
+                    type="number" 
+                    onChange={handleSecondAmount}
+                    value={secondAmount} 
+                    className="border mr-2 px-2 py-1 hover:border-gray-500"
+                />
+                <select 
+                    name="secondCurrencySelect"
+                    value={secondCurrency}
+                    onChange={(e) => setSecondCurrency(e.target.value)}
+                    className="border mr-2 px-2 py-1 hover:border-gray-500 cursor-pointer bg-slate-300"
+                >
+                    <option value="UAH">UAH</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+        </div>
+    )
+}
