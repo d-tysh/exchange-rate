@@ -24,14 +24,6 @@ export const Converter = ({getCurrencyValue}) => {
         setFirstAmount((value * currencyRatio).toFixed(2));
     }
 
-    const handleFirstCurrency = (e) => {
-        setFirstCurrency(e.target.value);
-    }
-
-    const handleSecondCurrency = (e) => {
-        setSecondCurrency(e.target.value);
-    }
-
     return (
         <div className="border w-[100%] flex flex-col items-center gap-4 py-4">
             <div>
@@ -46,7 +38,6 @@ export const Converter = ({getCurrencyValue}) => {
                     name="firstCurrencySelect"
                     min='0'
                     value={firstCurrency}
-                    // onChange={handleFirstCurrency} 
                     onChange={(e) => setFirstCurrency(e.target.value)}
                     className="border mr-2 px-2 py-1 hover:border-gray-500 cursor-pointer bg-slate-300"
                 >
