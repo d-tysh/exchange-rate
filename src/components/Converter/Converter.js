@@ -52,6 +52,7 @@ export const Converter = ({getCurrencyValue}) => {
                     onChange={handleSecondAmount}
                     value={secondAmount} 
                     className="border mr-2 px-2 py-1 hover:border-gray-500"
+                    readonly
                 />
                 <select 
                     name="secondCurrencySelect"
