@@ -11,17 +11,15 @@ export const Converter = ({getCurrencyValue}) => {
     }, [firstAmount, firstCurrency, getCurrencyValue, secondCurrency])
 
     const handleFirstAmount = (e) => {
-        const { value } = e.target;
-        setFirstAmount(value);
+        let { value } = e.target;
+
+        if (/^0+/.test(value)) {
+            value = value.replace(/^0+/, '');
+        }
+
+        setFirstAmount(value || 0);
         const currencyRatio = ((getCurrencyValue(firstCurrency) || 1) / (getCurrencyValue(secondCurrency) || 1));
         setSecondAmount((value * currencyRatio).toFixed(2));
-    }
-
-    const handleSecondAmount = (e) => {
-        const { value } = e.target;
-        setSecondAmount(value);
-        const currencyRatio = ((getCurrencyValue(secondCurrency) || 1) / (getCurrencyValue(firstCurrency) || 1));
-        setFirstAmount((value * currencyRatio).toFixed(2));
     }
 
     return (
@@ -48,10 +46,10 @@ export const Converter = ({getCurrencyValue}) => {
             </div>
             <div>
                 <input 
-                    type="number" 
-                    onChange={handleSecondAmount}
+                    type="number"
                     value={secondAmount} 
                     className="border mr-2 px-2 py-1 hover:border-gray-500"
+                    readOnly
                 />
                 <select 
                     name="secondCurrencySelect"
